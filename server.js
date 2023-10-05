@@ -7,6 +7,10 @@ const { createSession, createNeo4jSession } = require("./databaseConfig/config.n
 const mongoDB = require("./databaseConfig/config.mongoDB");
 const mongoDBConnection = require("./databaseConfig/config.mongoDB");
 
+const bodyParse = require("body-parser");
+const { makeNodeRelation } = require("./controllers/controller.route");
+app.use(bodyParse.urlencoded({extended:true}));
+app.use(bodyParse.json());
 
 app.use("/api/school",schoolRouter);
 app.use('/api/parent',parentRouter);
@@ -22,6 +26,7 @@ socketServer.liveLocation();
 socketServer.startServer();
 
 
+makeNodeRelation({})
 
 if(process.env.NODE_ENV=='Production'){
     app.listen(()=>{

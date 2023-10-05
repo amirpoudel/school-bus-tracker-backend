@@ -1,4 +1,5 @@
 const { getCurrentLocationRef } = require("../../models/firebase/model.firebase");
+const { makeNodeRelation } = require("../controller.route");
 
 
 
@@ -7,10 +8,12 @@ const handleLiveBusLocation = async function(busLocation,socket){
     console.log(`bus ${busID} is connected`);
 
     const currentLocationRef = getCurrentLocationRef(busID);
+  
 
     currentLocationRef.on('value',(snapshot)=>{
         const currentLocation = snapshot.val();
-        console.log(currentLocation)
+        makeNodeRelation(currentLocation)
+        console.log("currentLocation",currentLocation)
         socket.emit("currentLocation",currentLocation);   
     })
 }
